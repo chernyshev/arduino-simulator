@@ -132,6 +132,7 @@ var instrFormats = []struct {
 	value         uint16
 	Size          uint8
 	OperandsCount uint8
+	Operands      []uint32
 }{
 	// ADC
 	{Op: ADC, Mnemonic: "ADC", mask: 0xFC00, value: 0x1C00, Size: 2},
@@ -246,5 +247,5 @@ var instrFormats = []struct {
 	// SUBI – Subtract Immediate
 	{Op: SUBI, Mnemonic: "SUBI", mask: 0xF000, value: 0x5000, Size: 2},
 	// JMP
-	{Op: JMP, Mnemonic: "JMP", mask: 0xFE0E, value: 0x940C, Size: 4},
+	{Op: JMP, Mnemonic: "JMP", mask: 0xFE0E, value: 0x940C, Size: 4, Operands: []uint32{0x1F1FFFF}},
 }

@@ -1,7 +1,6 @@
 package avr
 
 import (
-	"debug/macho"
 	"fmt"
 	"os"
 	"strings"
@@ -15,8 +14,8 @@ const (
 
 type CPU struct {
 	// ALU – Arithmetic Logic Unit
-	SREG byte     // Status Register
-	GPRF [32]byte //General Purpose Register File
+	SREG byte        // Status Register
+	GPRF [32][8]byte //General Purpose Register File
 }
 
 // RAM (from Random-Access Memory)
@@ -33,7 +32,7 @@ type Memory struct {
 
 type Device struct {
 	Memory
-	macho.Cpu
+	CPU
 }
 
 func New() *Device {
