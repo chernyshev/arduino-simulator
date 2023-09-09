@@ -101,6 +101,7 @@ const (
 	SBIW
 	SBR
 	SBRC
+	SEI
 	SEZ
 	SLEEP
 	LD
@@ -156,12 +157,18 @@ var instrFormats = []struct {
 	{Op: CLI, Mnemonic: "CLI", mask: 0xFFFF, value: 0x94F8, Size: 2},
 	// CLR
 	{Op: CLR, Mnemonic: "CLR", mask: 0xFC00, value: 0x2400, Size: 2}, // as EOR
+	// CP – Compare
+	{Op: CP, Mnemonic: "CP", mask: 0xFC00, value: 0x1400, Size: 2},
+	// CPSE – Compare Skip if Equal
+	{Op: CPSE, Mnemonic: "CPSE", mask: 0xFC00, value: 0x1000, Size: 2},
 	// COM – One’s Complement
 	{Op: COM, Mnemonic: "COM", mask: 0xFE0F, value: 0x9400, Size: 2},
 	// CPC
 	{Op: CPC, Mnemonic: "CPC", mask: 0xFC00, value: 0x0400, Size: 2},
 	// CPI – Compare with Immediate
 	{Op: CPI, Mnemonic: "CPI", mask: 0xF000, value: 0x3000, Size: 2},
+	// DEC – Decrement
+	{Op: DEC, Mnemonic: "DEC", mask: 0xFE0F, value: 0x940A, Size: 2},
 	// EOR – Exclusive OR
 	{Op: EOR, Mnemonic: "EOR", mask: 0xFC00, value: 0x2400, Size: 2}, // as CLR
 	// IN - Load an I/O Location to Register
@@ -212,16 +219,22 @@ var instrFormats = []struct {
 	{Op: PUSH, Mnemonic: "PUSH", mask: 0xFE0F, value: 0x920F, Size: 2},
 	// RET
 	{Op: RET, Mnemonic: "RET", mask: 0xFFFF, value: 0x9508, Size: 2},
+	// RETI – Return from Interrupt
+	{Op: RETI, Mnemonic: "RETI", mask: 0xFFFF, value: 0x9518, Size: 2},
 	// RJMP
 	{Op: RJMP, Mnemonic: "RJMP", mask: 0xF000, value: 0xC000, Size: 2},
-	// SBI
-	{Op: SBI, Mnemonic: "SBI", mask: 0xFF00, value: 0x9A00, Size: 2},
 	// SBC
 	{Op: SBC, Mnemonic: "SBC", mask: 0xFC00, value: 0x800, Size: 2},
+	// SBI
+	{Op: SBI, Mnemonic: "SBI", mask: 0xFF00, value: 0x9A00, Size: 2},
+	// SBIS – Skip if Bit in I/O Register is Set
+	{Op: SBIS, Mnemonic: "SBIS", mask: 0xFF00, value: 0x9B00, Size: 2},
 	// SBIW
 	{Op: SBIW, Mnemonic: "SBIW", mask: 0xFF00, value: 0x9700, Size: 2},
 	// SBCI – Subtract Immediate with Carry SBI – Set Bit in I/O Register
 	{Op: SBCI, Mnemonic: "SBCI", mask: 0xF000, value: 0x4000, Size: 2},
+	// SEI – Set Global Interrupt Enable Bit
+	{Op: SEI, Mnemonic: "SEI", mask: 0xFFFF, value: 0x9478, Size: 2},
 	// ST – Store Indirect From Register to Data Space using Index X
 	{Op: ST, Mnemonic: "ST", mask: 0xFE0F, value: 0x920C, Size: 2},
 	{Op: ST, Mnemonic: "ST", mask: 0xFE0F, value: 0x920D, Size: 2},
