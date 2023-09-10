@@ -117,12 +117,12 @@ const (
 )
 
 type Inst struct {
-	mask     uint32
-	value    uint32
+	//mask     uint32
+	//value    uint32
 	Op       Op
 	Size     uint8
 	Mnemonic string
-	//	Args
+	Operands []uint32
 }
 
 var instrFormats = []struct {
@@ -132,7 +132,7 @@ var instrFormats = []struct {
 	value         uint16
 	Size          uint8
 	OperandsCount uint8
-	Operands      []uint32
+	OperandMasks  []uint32
 }{
 	// ADC
 	{Op: ADC, Mnemonic: "ADC", mask: 0xFC00, value: 0x1C00, Size: 2},
@@ -247,5 +247,5 @@ var instrFormats = []struct {
 	// SUBI – Subtract Immediate
 	{Op: SUBI, Mnemonic: "SUBI", mask: 0xF000, value: 0x5000, Size: 2},
 	// JMP
-	{Op: JMP, Mnemonic: "JMP", mask: 0xFE0E, value: 0x940C, Size: 4, Operands: []uint32{0x1F1FFFF}},
+	{Op: JMP, Mnemonic: "JMP", mask: 0xFE0E, value: 0x940C, Size: 4, OperandMasks: []uint32{0x1F1FFFF}},
 }
