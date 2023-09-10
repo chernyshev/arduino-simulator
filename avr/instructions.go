@@ -129,7 +129,7 @@ type OperandType = uint
 
 const (
 	UnknownOperandType OperandType = iota
-	DirectProgramAddressing
+	ConstantAddress
 )
 
 type Operand struct {
@@ -258,5 +258,5 @@ var instrFormats = []struct {
 	// SUBI – Subtract Immediate
 	{Op: SUBI, Mnemonic: "SUBI", mask: 0xF000, value: 0x5000, Size: 2},
 	// JMP
-	{Op: JMP, Mnemonic: "JMP", mask: 0xFE0E, value: 0x940C, Size: 4, Operands: []Operand{{Mask: 0x1F1FFFF, Type: DirectProgramAddressing}}},
+	{Op: JMP, Mnemonic: "JMP", mask: 0xFE0E, value: 0x940C, Size: 4, Operands: []Operand{{Mask: 0x1F1FFFF, Type: ConstantAddress}}},
 }
