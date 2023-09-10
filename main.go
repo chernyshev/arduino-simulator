@@ -1,10 +1,11 @@
 package main
 
 import (
-	"arduino-simulator/cmd"
-	"github.com/urfave/cli/v2"
 	"log"
 	"os"
+
+	"arduino-simulator/cmd"
+	"github.com/urfave/cli/v2"
 )
 
 var version string

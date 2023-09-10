@@ -30,8 +30,8 @@ func Decode(src []byte) (inst Inst, err error) {
 		}
 
 		var operands []uint32
-		for j := range f.OperandMasks {
-			operands = append(operands, extractOperand(opcode, f.OperandMasks[j]))
+		for j := range f.Operands {
+			operands = append(operands, extractOperand(opcode, f.Operands[j].Mask))
 		}
 
 		inst = Inst{

@@ -125,14 +125,25 @@ type Inst struct {
 	Operands []uint32
 }
 
+type OperandType = uint
+
+const (
+	UnknownOperandType OperandType = iota
+	DirectProgramAddressing
+)
+
+type Operand struct {
+	Mask uint32
+	Type OperandType
+}
+
 var instrFormats = []struct {
-	Op            Op
-	Mnemonic      string
-	mask          uint16
-	value         uint16
-	Size          uint8
-	OperandsCount uint8
-	OperandMasks  []uint32
+	Op       Op
+	Mnemonic string
+	mask     uint16
+	value    uint16
+	Size     uint8
+	Operands []Operand
 }{
 	// ADC
 	{Op: ADC, Mnemonic: "ADC", mask: 0xFC00, value: 0x1C00, Size: 2},
@@ -247,5 +258,5 @@ var instrFormats = []struct {
 	// SUBI – Subtract Immediate
 	{Op: SUBI, Mnemonic: "SUBI", mask: 0xF000, value: 0x5000, Size: 2},
 	// JMP
-	{Op: JMP, Mnemonic: "JMP", mask: 0xFE0E, value: 0x940C, Size: 4, OperandMasks: []uint32{0x1F1FFFF}},
+	{Op: JMP, Mnemonic: "JMP", mask: 0xFE0E, value: 0x940C, Size: 4, Operands: []Operand{{Mask: 0x1F1FFFF, Type: DirectProgramAddressing}}},
 }
