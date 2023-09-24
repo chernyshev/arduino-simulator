@@ -168,7 +168,7 @@ var instrFormats = []struct {
 	// CLI – Clear Global Interrupt Enable Bit
 	{Op: CLI, Mnemonic: "CLI", mask: 0xFFFF, value: 0x94F8, Size: 2},
 	// CLR
-	{Op: CLR, Mnemonic: "CLR", mask: 0xFC00, value: 0x2400, Size: 2}, // as EOR
+	{Op: CLR, Mnemonic: "CLR", mask: 0xFC00, value: 0x2400, Size: 2}, // Equivalent to instruction EOR Rd,Rd
 	// CP – Compare
 	{Op: CP, Mnemonic: "CP", mask: 0xFC00, value: 0x1400, Size: 2},
 	// CPSE – Compare Skip if Equal
@@ -176,7 +176,7 @@ var instrFormats = []struct {
 	// COM – One’s Complement
 	{Op: COM, Mnemonic: "COM", mask: 0xFE0F, value: 0x9400, Size: 2},
 	// CPC
-	{Op: CPC, Mnemonic: "CPC", mask: 0xFC00, value: 0x0400, Size: 2},
+	{Op: CPC, Mnemonic: "CPC", mask: 0xFC00, value: 0x0400, Size: 2, Operands: []Operand{{Mask: 0x1F0}, {Mask: 0x20F}}},
 	// CPI – Compare with Immediate
 	{Op: CPI, Mnemonic: "CPI", mask: 0xF000, value: 0x3000, Size: 2},
 	// DEC – Decrement

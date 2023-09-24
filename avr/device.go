@@ -72,8 +72,27 @@ func (d Device) Run() error {
 		}
 		opcode := d.Flash[i : i+int(instr.Size)]
 		i += int(instr.Size)
-		fmt.Printf("%4x:\t% -12x\t%s\n", offset, opcode, strings.ToLower(instr.Mnemonic))
+
+		opStr := operandsToString(instr.Operands)
+		fmt.Printf("%4x:\t% -12x\t%s%s\n", offset, opcode, strings.ToLower(instr.Mnemonic), opStr)
 		offset = i
 	}
 	return nil
+}
+
+func operandsToString(operands []uint32) string {
+	if len(operands) == 0 {
+		return ""
+	}
+
+	opStr := ""
+	for i, op := range operands {
+		if i == 0 {
+			opStr = fmt.Sprintf("%#x", op*2)
+		} else {
+			opStr += ", " + fmt.Sprintf("%#x", op)
+		}
+	}
+
+	return fmt.Sprintf("\t%s\t;  %s", opStr, opStr)
 }
