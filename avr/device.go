@@ -80,7 +80,7 @@ func (d Device) Run() error {
 	return nil
 }
 
-func operandsToString(operands []uint32) string {
+func operandsToString(operands []OperandValue) string {
 	if len(operands) == 0 {
 		return ""
 	}
@@ -88,9 +88,9 @@ func operandsToString(operands []uint32) string {
 	opStr := ""
 	for i, op := range operands {
 		if i == 0 {
-			opStr = fmt.Sprintf("%#x", op*2)
+			opStr = fmt.Sprintf("%s", op)
 		} else {
-			opStr += ", " + fmt.Sprintf("%#x", op)
+			opStr += ", " + fmt.Sprintf("%s", op)
 		}
 	}
 

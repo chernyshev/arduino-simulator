@@ -29,9 +29,9 @@ func Decode(src []byte) (inst Inst, err error) {
 			return Inst{}, errors.New("invalid opcode size")
 		}
 
-		var operands []uint32
+		var operands []OperandValue
 		for j := range f.Operands {
-			operands = append(operands, extractOperand(opcode, f.Operands[j].Mask))
+			operands = append(operands, extractOperand(opcode, f.Operands[j]))
 		}
 
 		inst = Inst{
@@ -49,12 +49,12 @@ func Decode(src []byte) (inst Inst, err error) {
 	}, nil
 }
 
-func extractOperand(data uint32, mask uint32) uint32 {
-	significantBytes := data & mask
+func extractOperand(data uint32, op Operand) OperandValue {
+	significantBytes := data & op.Mask
 
 	var operand uint32
 
-	for m := mask; m != 0; {
+	for m := op.Mask; m != 0; {
 		// check highest bit
 		if (m&0x80000000)>>31 == 1 {
 			operand = (operand << 1) | ((significantBytes & 0x80000000) >> 31)
@@ -63,5 +63,8 @@ func extractOperand(data uint32, mask uint32) uint32 {
 		significantBytes = significantBytes << 1
 	}
 
-	return operand
+	return OperandValue{
+		Value: operand,
+		Type:  op.Type,
+	}
 }

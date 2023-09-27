@@ -1,5 +1,7 @@
 package avr
 
+import "fmt"
+
 // TODO generate this file automatically
 type Op uint16
 
@@ -116,20 +118,33 @@ const (
 	XCH
 )
 
+type OperandValue struct {
+	Type  OperandType
+	Value uint32
+}
+
+func (ov OperandValue) String() string {
+	switch ov.Type {
+	case DirectProgramAddressing:
+		return fmt.Sprintf("%#x", ov.Value*2)
+	default:
+		return fmt.Sprintf("%#x", ov.Value)
+	}
+}
+
 type Inst struct {
-	//mask     uint32
-	//value    uint32
 	Op       Op
 	Size     uint8
 	Mnemonic string
-	Operands []uint32
+	Operands []OperandValue
 }
 
 type OperandType = uint
 
 const (
 	UnknownOperandType OperandType = iota
-	ConstantAddress
+	RegisterDirect
+	DirectProgramAddressing
 )
 
 type Operand struct {
@@ -176,7 +191,7 @@ var instrFormats = []struct {
 	// COM – One’s Complement
 	{Op: COM, Mnemonic: "COM", mask: 0xFE0F, value: 0x9400, Size: 2},
 	// CPC
-	{Op: CPC, Mnemonic: "CPC", mask: 0xFC00, value: 0x0400, Size: 2, Operands: []Operand{{Mask: 0x1F0}, {Mask: 0x20F}}},
+	{Op: CPC, Mnemonic: "CPC", mask: 0xFC00, value: 0x0400, Size: 2, Operands: []Operand{{Mask: 0x1F0, Type: RegisterDirect}, {Mask: 0x20F, Type: RegisterDirect}}},
 	// CPI – Compare with Immediate
 	{Op: CPI, Mnemonic: "CPI", mask: 0xF000, value: 0x3000, Size: 2},
 	// DEC – Decrement
@@ -258,5 +273,5 @@ var instrFormats = []struct {
 	// SUBI – Subtract Immediate
 	{Op: SUBI, Mnemonic: "SUBI", mask: 0xF000, value: 0x5000, Size: 2},
 	// JMP
-	{Op: JMP, Mnemonic: "JMP", mask: 0xFE0E, value: 0x940C, Size: 4, Operands: []Operand{{Mask: 0x1F1FFFF, Type: ConstantAddress}}},
+	{Op: JMP, Mnemonic: "JMP", mask: 0xFE0E, value: 0x940C, Size: 4, Operands: []Operand{{Mask: 0x1F1FFFF, Type: DirectProgramAddressing}}},
 }
